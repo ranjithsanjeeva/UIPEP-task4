@@ -22,8 +22,10 @@ export class AuthenticationService {
         const params = new HttpParams().append('username', username).append('password',password);
         return this.http.get(`http://localhost:3000/findUser`, { headers, params })
             .pipe(map(user => {
+                console.log("User:")
+                console.log(JSON.stringify(user))
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
-                //localStorage.setItem('currentUser', JSON.stringify(user));
+                localStorage.setItem('currentUser', JSON.stringify(user));
                 this.currentUserSubject.next(user);
                 
             }));

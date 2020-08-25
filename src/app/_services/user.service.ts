@@ -11,13 +11,13 @@ export class UserService {
 
     register(user) {
         return this.http.post(`http://localhost:3000`, {
-                "firstName": user.firstName,
-                "lastName": user.lastName,
-                "email": user.email,
-                "phoneNo": user.phoneNo,
-                "username": user.username,
-                "password": user.password,
-        });
+            "firstName": user.firstName,
+            "lastName": user.lastName,
+            "email": user.email,
+            "phoneNo": user.phoneNo,
+            "username": user.username,
+            "password": user.password,
+    });
     }
 
     delete(id) {
