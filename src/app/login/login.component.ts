@@ -59,8 +59,7 @@ export class LoginComponent implements OnInit {
         console.log("hii2")
         this.loading = true;
         this.authenticationService.login(this.f.username.value, this.f.password.value)
-            .pipe(first())
-            .subscribe(
+                .subscribe(
                 data => {
                     console.log("Data:")
                     console.log(JSON.stringify(data))
