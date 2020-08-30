@@ -47,15 +47,21 @@ export class HomeComponent implements OnInit {
     
         this.displayUser();
     }
-
     deleteUser(id: string) {
-
-    this.http.delete(`http://localhost:3000/`+ id).subscribe(data => {
-        // this.authenticationService.logout();
-        // this.router.navigate(['/login']);
-        this.displayUser()
-      });
+        this.http.delete(`http://localhost:3000/`+ id).subscribe(data => {
+            this.authenticationService.logout();
+            this.router.navigate(['/login']);
+            
+        });
     }
+
+    // deleteUsers(id: string) {
+    //     this.http.delete(`http://localhost:3000/`+ id).subscribe(data => {
+    //         // this.authenticationService.logout();
+    //         // this.router.navigate(['/login']);
+    //         this.displayUser()
+    //     });
+    // }
 
     displayUser() {
         this.http.get(`http://localhost:3000/getAllUser`).subscribe(data => {
