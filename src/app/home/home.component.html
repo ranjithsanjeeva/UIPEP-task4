@@ -1,8 +1,19 @@
 <h1>Hi {{user1.firstName}} {{user1.lastName}}!</h1>
-<p>You're logged in with Angular 7!!</p>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+    <!-- <input id="message" type="text" formControlName="message" class="form-control" /> -->
+    <textarea id="message" type="text" formControlName="message" rows="1" class="form-control"></textarea>
+    </div>
+    <div class="form-group" >
+        <button class="btn btn-primary">
+            Post
+        </button>
+    </div>
+</form>
+
+
 <a (click)="deleteUser(user1._id)" style="cursor: pointer;" class="text-danger">Remove my account</a>
 <br><br>
-<h3>All other registered users:</h3>
 <ul>
     <div *ngFor="let user of user2">
         
