@@ -59,17 +59,17 @@ export class LoginComponent implements OnInit {
         console.log("hii2")
         this.loading = true;
         this.authenticationService.login(this.f.username.value, this.f.password.value)
-                .subscribe(
-                data => {
-                    // console.log("Data:")
-                    // console.log(JSON.stringify(data))
-                    this.router.navigate([this.returnUrl]);
-                },
-                error => {
-                    this.alertService.error(error.error);
-                    console.log(error)
-                    this.error = error;
-                    this.loading = false;
-                });
+            .subscribe(
+            data => {
+                // console.log("Data:")
+                // console.log(JSON.stringify(data))
+                this.router.navigate([this.returnUrl]);
+            },
+            error => {
+                this.alertService.error(error.error);
+                console.log(error)
+                this.error = error;
+                this.loading = false;
+            });
     }
 }
