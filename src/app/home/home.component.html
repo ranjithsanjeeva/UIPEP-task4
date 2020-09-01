@@ -1,8 +1,9 @@
 <h1>Hi {{user1.firstName}} {{user1.lastName}}!</h1>
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="registerForm" (ngSubmit)="onPost()">
     <div class="form-group">
     <!-- <input id="message" type="text" formControlName="message" class="form-control" /> -->
-    <textarea id="message" type="text" formControlName="message" rows="1" class="form-control"></textarea>
+    <textarea id="message" type="text" formControlName="message" rows="1" class="form-control" placeholder="enter your text here"
+    ></textarea>
     </div>
     <div class="form-group" >
         <button class="btn btn-primary">
@@ -10,15 +11,37 @@
         </button>
     </div>
 </form>
+<br>
+<h5>My Posts:</h5>
+<ul>
+    <div *ngFor="let user of user3">
+
+        <div *ngIf="user.username == user1.username">
+            
+            <p><li>{{user.message}} </li></p>
+               
+        </div>
+        
+    </div>
+</ul>
 
 
 <a (click)="deleteUser(user1._id)" style="cursor: pointer;" class="text-danger">Remove my account</a>
 <br><br>
+<h3>All registered users:</h3>
 <ul>
-    <div *ngFor="let user of user2">
+    <div *ngFor="let i of user2">
         
-        <div *ngIf="user._id != user1._id">
-            <li>{{user.firstName}} {{user.lastName}}</li>
+        <div *ngIf="i._id != user1._id">
+            <li>{{i.firstName}} {{i.lastName}}</li>
+            <h5>Posts:</h5>
+            <ul>
+                <div *ngFor="let j of user3">
+                    <div *ngIf="i.username == j.username">
+                        <p><li>{{j.message}} </li></p>
+                    </div>
+                </div>
+            </ul>
         </div>
         
     </div>
