@@ -2,8 +2,10 @@
 <form [formGroup]="registerForm" (ngSubmit)="onPost()">
     <div class="form-group">
     <!-- <input id="message" type="text" formControlName="message" class="form-control" /> -->
-    <textarea id="message" type="text" formControlName="message" rows="1" class="form-control" placeholder="enter your text here"
-    ></textarea>
+    <textarea id="message" type="text" formControlName="message" class="form-control" placeholder="enter your text here" [ngClass]="{ 'is-invalid': submitted && f.message.errors}"></textarea>
+    <div *ngIf="submitted && f.message.errors" class="invalid-feedback">
+        <div *ngIf="f.message.errors.required">You can't post  empty</div>
+    </div>
     </div>
     <div class="form-group" >
         <button class="btn btn-primary">
@@ -12,13 +14,13 @@
     </div>
 </form>
 <br>
-<h5>My Posts:</h5>
+<h6>My Posts:</h6>
 <ul>
     <div *ngFor="let user of user3">
 
         <div *ngIf="user.username == user1.username">
             
-            <p><li>{{user.message}} </li></p>
+            <p><li class="text-muted">{{user.message}} </li></p>
                
         </div>
         
@@ -28,17 +30,17 @@
 
 <a (click)="deleteUser(user1._id)" style="cursor: pointer;" class="text-danger">Remove my account</a>
 <br><br>
-<h3>All registered users:</h3>
+<h2>All registered users:</h2>
 <ul>
     <div *ngFor="let i of user2">
         
         <div *ngIf="i._id != user1._id">
-            <li>{{i.firstName}} {{i.lastName}}</li>
-            <h5>Posts:</h5>
+            <h4><li>{{i.firstName}} {{i.lastName}}</li></h4>
+            <h6>Posts:</h6>
             <ul>
                 <div *ngFor="let j of user3">
                     <div *ngIf="i.username == j.username">
-                        <p><li>{{j.message}} </li></p>
+                        <p><li class="text-muted">{{j.message}} </li></p>
                     </div>
                 </div>
             </ul>

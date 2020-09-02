@@ -6,13 +6,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 
-@Component({ templateUrl: 'home.component.html' })
+@Component({ 
+    templateUrl: 'home.component.html',
+    styleUrls: ['home.component.css']
+ })
 export class HomeComponent implements OnInit {
     //users = [];
     registerForm: FormGroup;
     user1;
     user2;
     user3;
+    submitted = false;
     //returnUrl: string;
     private currentUserSubject: BehaviorSubject<any>;
    
@@ -31,7 +35,7 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
         message: ['', Validators.required] 
-     });
+        });
 
         // console.log(this.currentUserSubject.getValue())
         // console.log("king")
@@ -67,8 +71,16 @@ export class HomeComponent implements OnInit {
             
         });
     }
-    
+    get f() { return this.registerForm.controls; }
     onPost() {
+        
+        
+        // stop here if form is invalid
+        if (this.registerForm.invalid) {
+            this.submitted = true;
+            return;
+        }
+        this.submitted = false;
         // console.log(this.registerForm.value.message)
         // console.log(this.user1.username)
         // const headers = new HttpHeaders().append('Content-Type', 'application/json');
