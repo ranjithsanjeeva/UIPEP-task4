@@ -5,6 +5,7 @@ import { AuthenticationService } from '../_services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { identifierModuleUrl } from '@angular/compiler';
 
 @Component({ 
     templateUrl: 'home.component.html',
@@ -12,11 +13,16 @@ import { Router, ActivatedRoute } from '@angular/router';
  })
 export class HomeComponent implements OnInit {
     //users = [];
-    registerForm: FormGroup;
-    user1;
-    user2;
-    user3;
+    registerForm1: FormGroup;
+    registerForm2: FormGroup;
+    myDetails;
+    user;
+    post;
+    comment;
     submitted = false;
+    showCommentVisibity = false;
+    count;
+    // output = document.getElementById("comment")
     //returnUrl: string;
     private currentUserSubject: BehaviorSubject<any>;
    
@@ -33,9 +39,13 @@ export class HomeComponent implements OnInit {
     }
     
     ngOnInit() {
-        this.registerForm = this.formBuilder.group({
+        this.registerForm1 = this.formBuilder.group({
         message: ['', Validators.required] 
         });
+
+        this.registerForm2 = this.formBuilder.group({
+            comment: ['', Validators.required] 
+            });
 
         // console.log(this.currentUserSubject.getValue())
         // console.log("king")
@@ -53,14 +63,15 @@ export class HomeComponent implements OnInit {
     //    })).subscribe();;
         this.http.get(`http://localhost:3000/findUsers`, { headers }).subscribe(data => {
             //console.log(JSON.stringify(data))
-            this.user1=data
+            this.myDetails=data
         },
         error => {
             console.log(error)
         })
         
         this.displayUser();
-        this.displayPost()
+        this.displayPost();
+        this.displayComment();
         //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
@@ -71,12 +82,12 @@ export class HomeComponent implements OnInit {
             
         });
     }
-    get f() { return this.registerForm.controls; }
+    get f() { return this.registerForm1.controls; }
+
     onPost() {
         
-        
         // stop here if form is invalid
-        if (this.registerForm.invalid) {
+        if (this.registerForm1.invalid) {
             this.submitted = true;
             return;
         }
@@ -86,10 +97,10 @@ export class HomeComponent implements OnInit {
         // const headers = new HttpHeaders().append('Content-Type', 'application/json');
         // const params = new HttpParams().append('message', this.registerForm.value.message).append('username', this.user1.username);
         this.http.post(`http://localhost:3000/post`, { 
-            "message": this.registerForm.value.message,
-            "username": this.user1.username,
+            "message": this.registerForm1.value.message,
+            "username": this.myDetails.username,
          }).subscribe(data => {
-            console.log(JSON.stringify(data))
+            //console.log(JSON.stringify(data))
             this.ngOnInit()
           })
     }
@@ -104,16 +115,73 @@ export class HomeComponent implements OnInit {
     displayUser() {
         this.http.get(`http://localhost:3000/getAllUser`).subscribe(data => {
             //console.log(JSON.stringify(data))
-            this.user2=data
+            this.user=data
           })
     }
 
     displayPost() {
-        console.log("JSON.stringify(data)")
+        //console.log("JSON.stringify(data)")
         this.http.get(`http://localhost:3000/post`).subscribe(data => {
-            console.log(JSON.stringify(data))
-            this.user3=data
+            //console.log(JSON.stringify(data))
+            this.post=data
+            this.post.map((post)=>{
+                post.showCommentBox = false
+                post.liked = false
+            })
           })
+    }
+
+
+    onCommentClick(user) {
+        // this.user3.map((post)=> {
+
+        // })
+        user.showCommentBox = ! user.showCommentBox ;
+        // this.showCommentVisibity = !this.showCommentVisibity;
+        // this.output.style.visibility = "visible";
+    }
+
+    onComment(postId,commentowner) {
+        //console.log("theking")
+        if (this.registerForm2.invalid) {
+            return;
+        }
+        // console.log(this.registerForm2.value.comment)
+        // console.log(postId)
+        // console.log(commentowner)
+        // console.log(this.user1.username)
+        // const headers = new HttpHeaders().append('Content-Type', 'application/json');
+        // const params = new HttpParams().append('message', this.registerForm.value.message).append('username', this.user1.username);
+        this.http.post(`http://localhost:3000/comment`, { 
+            "comment": this.registerForm2.value.comment,
+            "postId": postId,
+            "commentowner": commentowner,
+         }).subscribe(data => {
+            //console.log(JSON.stringify(data))
+            this.ngOnInit()
+          })
+    }
+
+    displayComment() {
+        //console.log("JSON.stringify(data)NANU")
+        this.http.get(`http://localhost:3000/comment`).subscribe(data => {
+            //console.log(JSON.stringify(data))
+            this.comment=data
+            // this.post.map((post)=>{
+            //     post.showCommentBox = false
+            // })
+          })
+    }
+
+    onLike(user) {
+        // console.log("hello")
+        user.liked=!user.liked;
+        if(user.liked) {
+            if(this.count<1){
+                this.count=this.count+1
+            }
+        }
+        
     }
 
     // private loadAllUsers() {
