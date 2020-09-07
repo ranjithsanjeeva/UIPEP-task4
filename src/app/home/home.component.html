@@ -1,73 +1,110 @@
-<h1>Hi {{myDetails.firstName}} {{myDetails.lastName}}!</h1>
-<form [formGroup]="registerForm1" (ngSubmit)="onPost()">
-    <div class="form-group">
-    <!-- <input id="message" type="text" formControlName="message" class="form-control" /> -->
-    <textarea id="message" type="text" formControlName="message" class="form-control" placeholder="enter your text here" [ngClass]="{ 'is-invalid': submitted && f.message.errors}"></textarea>
-    <div *ngIf="submitted && f.message.errors" class="invalid-feedback">
-        <div *ngIf="f.message.errors.required">You can't post  empty</div>
-    </div>
-    </div>
-    <div class="form-group" >
-        <button class="btn btn-primary">
-            Post
-        </button>
-    </div>
-</form>
-<br>
-<h6>My Posts:</h6>
-<ul>
-    <div class="mainpost" *ngFor="let user of post">
-
-        <div *ngIf="user.username == myDetails.username">
-            
-            <p><li class="text-muted post">{{user.message}} </li></p>
-            <button class="btn btn-outline-primary" (click)="onLike(user)" >
-                <div *ngIf="user.liked==true;else other">
-                    <span>Unlike</span>
-                </div>
-                <ng-template #other> <span>Like</span> </ng-template>
-            </button> 
-            <button class="btn btn-outline-primary" (click) = "onCommentClick(user)" >Comment</button> 
-            <button class="btn btn-outline-primary">Share</button> <br>
-            <form [formGroup]="registerForm2" (ngSubmit)="onComment(user._id,myDetails.username)">
-                <div class="comments" [ngStyle]="{'display':user.showCommentBox?'block':'none'}">
-                    <input id="comment" type="text" formControlName="comment" placeholder="Write your comment here"/> <button class="btn btn-link">Post</button> <br>
-                    All Comments:
-                    <ul>
-                        <div *ngFor="let value of comment">
-                            <div class = "commentContent" *ngIf="value.postId == user._id">
-                                <li> <h5>{{value.commentowner}}: </h5>{{value.comment}}</li>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
-            </form>
-               
+<div class="heading">
+    <h1 class="main">Hi {{myDetails.firstName}} {{myDetails.lastName}}!</h1>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <form [formGroup]="registerForm1" (ngSubmit)="onPost()">
+        <div class="form-group">
+        <!-- <input id="message" type="text" formControlName="message" class="form-control" /> -->
+            <textarea id="message" type="text" formControlName="message" class="form-control" placeholder="enter your text here" [ngClass]="{ 'is-invalid': submitted && f.message.errors}"></textarea>
+            <div *ngIf="submitted && f.message.errors" class="invalid-feedback">
+                <div *ngIf="f.message.errors.required">You can't post  empty</div>
+            </div>
         </div>
-        
+        <div class="form-group" >
+            <button class="btn btn-primary">
+                Post
+            </button>
+        </div>
+    </form>
+</div>
+<div class="content">
+    <h6 class="myPost">My Posts:</h6>
+    <ul>
+        <div class="mainpost" *ngFor="let user of post">
+
+            <div class="card" *ngIf="user.username == myDetails.username">
+                
+                <p><li class="text-muted post card-body"> <div *ngIf="user.postOwner"><h6 class="shared">Shared</h6>  post owner : <b>{{user.postOwner}}</b>  <br></div> {{user.message}} </li></p>
+                <!-- <button class="btn btn-outline-primary like" (click)="onLike(user,like)" >
+                <div *ngFor="let like of likes">
+                    <div *ngIf="user._id == like.postId">
+                        <div *ngIf="like.liked==true;else other">
+                            <span>Unlike</span>
+                            <span>:{{countLike+1}}</span>
+                        </div>
+                        <ng-template #other> <span>Like</span> <span>:{{countLike}}</span> </ng-template>
+                        
+                    </div>
+                </div>
+                </button> -->
+                <!-- <button ng-click="count = count + 1" ng-init="count=0">
+                    Like
+                </button>
+                <span>
+                    count: {{count}}
+                </span> -->
+                <button class="btn btn-outline-primary " (click)="onCommentClick(user)" >Comment</button> 
+                <button class="btn btn-outline-primary" (click)="onShare(user)">Share</button> <br>
+                <form [formGroup]="registerForm2" (ngSubmit)="onComment(user._id,myDetails.username)">
+                    <div class="comments padd" [ngStyle]="{'display':user.showCommentBox?'block':'none'}">
+                        <input class="comment-input w3-input" type="text" formControlName="comment" placeholder="Write your comment here"/> <button class="btn btn-link">Post</button> <br>
+                        All Comments:
+                        <ul>
+                            <div *ngFor="let value of comment">
+                                <div class = "commentContent" *ngIf="value.postId == user._id">
+                                    <li> <h5>{{value.commentowner}}: </h5>{{value.comment}}</li>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                </form>
+                
+            </div>
+            
+        </div>
+    </ul>
+</div>
+
+<!-- <h6>My shared post:</h6>
+<br>
+<ul>
+    <div *ngFor="let i of share">
+        <div *ngIf="i.shareUsername == myDetails.username">
+            <p><li class="text-muted post share">post from: <b>{{i.postUsername}}</b> <br> {{i.message}} </li></p>
+        </div>
     </div>
-</ul>
+</ul> -->
 
 
 <a (click)="deleteUser(myDetails._id)" style="cursor: pointer;" class="text-danger">Remove my account</a>
 <br><br>
-<h2>All registered users:</h2>
+<h2>Timeline:</h2>
 <ul>
     <div *ngFor="let i of user">
         
-        <div class="people" *ngIf="i._id != myDetails._id">
-            <h4><li>{{i.firstName}} {{i.lastName}}</li></h4>
-            <h6>Posts:</h6>
+        <div class="people card" *ngIf="i._id != myDetails._id">
+            <h4 class="user"><li>{{i.firstName}} {{i.lastName}}</li></h4>
+            
             <ul>
                 <div class="mainpost" *ngFor="let j of post">
-                    <div *ngIf="i.username == j.username">
-                        <p><li class="text-muted post">{{j.message}} </li></p>
-                        <button class="btn btn-outline-primary" (click) = "onLike()" >Like</button> <span ></span>
-                        <button class="btn btn-outline-primary" (click) = "onCommentClick(j)" >Comment</button> 
-                        <button class="btn btn-outline-primary">Share</button> <br>
+                    <div class="card" *ngIf="i.username == j.username">
+                        <p><li class="text-muted post"> <div *ngIf="j.postOwner"> <h6 class="shared">Shared</h6> post owner : <b>{{j.postOwner}}</b>  <br></div>  {{j.message}} </li></p>
+                        <!-- <div *ngFor="let like of likes">
+                            <div *ngIf="j._id == like.postId">
+                                <button class="btn btn-outline-primary like" (click)="onLike(j,like)" >
+                                <div *ngIf="like.liked==true;else other">
+                                    <span>Unlike</span>
+                                    <span>:{{countLike+1}}</span>
+                                </div>
+                                <ng-template #other> <span>Like</span> <span>:{{countLike}}</span> </ng-template>
+                                
+                                </button>
+                            </div>
+                        </div> -->
+                        <button class="btn btn-outline-primary hello" (click)="onCommentClick(j)" >Comment</button> 
+                        <button class="btn btn-outline-primary" (click)="onShare(j)" >Share</button> <br>
                         <form [formGroup]="registerForm2" (ngSubmit)="onComment(j._id,myDetails.username)">
                             <div class="comments" [ngStyle]="{'display':j.showCommentBox?'block':'none'}">
-                                <input type="text" formControlName="comment" placeholder="Write your comment here"/> <button class="btn btn-link">Post</button> <br>
+                                <input class="comment-input w3-input" type="text" formControlName="comment" placeholder="Write your comment here"/> <button class="btn btn-link">Post</button> <br>
                                 All Comments:
                                 <ul> 
                                     <div *ngFor="let value of comment">
@@ -81,6 +118,15 @@
                     </div>
                 </div>
             </ul>
+            <!-- <h6>Shared post:</h6>
+            <br>
+            <ul>
+                <div *ngFor="let k of share">
+                    <div *ngIf="k.shareUsername == i.username">
+                        <p><li class="text-muted post share">post from: <b>{{k.postUsername}}</b> <br> {{k.message}} </li></p>
+                    </div>
+                </div>
+            </ul> -->
         </div>
         
     </div>

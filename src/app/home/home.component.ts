@@ -21,7 +21,9 @@ export class HomeComponent implements OnInit {
     comment;
     submitted = false;
     showCommentVisibity = false;
-    count;
+    // likes;
+    // countLike=0;
+    share
     // output = document.getElementById("comment")
     //returnUrl: string;
     private currentUserSubject: BehaviorSubject<any>;
@@ -72,6 +74,8 @@ export class HomeComponent implements OnInit {
         this.displayUser();
         this.displayPost();
         this.displayComment();
+        // this.displayLike()
+        // this.displayShare()
         //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
@@ -101,6 +105,7 @@ export class HomeComponent implements OnInit {
             "username": this.myDetails.username,
          }).subscribe(data => {
             //console.log(JSON.stringify(data))
+
             this.ngOnInit()
           })
     }
@@ -114,7 +119,7 @@ export class HomeComponent implements OnInit {
 
     displayUser() {
         this.http.get(`http://localhost:3000/getAllUser`).subscribe(data => {
-            //console.log(JSON.stringify(data))
+            //console.log("JSON.stringify(data1)")
             this.user=data
           })
     }
@@ -122,7 +127,7 @@ export class HomeComponent implements OnInit {
     displayPost() {
         //console.log("JSON.stringify(data)")
         this.http.get(`http://localhost:3000/post`).subscribe(data => {
-            //console.log(JSON.stringify(data))
+            //console.log("SON.stringify(data2)")
             this.post=data
             this.post.map((post)=>{
                 post.showCommentBox = false
@@ -165,25 +170,64 @@ export class HomeComponent implements OnInit {
     displayComment() {
         //console.log("JSON.stringify(data)NANU")
         this.http.get(`http://localhost:3000/comment`).subscribe(data => {
-            //console.log(JSON.stringify(data))
+            //console.log("JSON.stringify(data3)")
             this.comment=data
             // this.post.map((post)=>{
             //     post.showCommentBox = false
             // })
+
           })
     }
 
-    onLike(user) {
-        // console.log("hello")
-        user.liked=!user.liked;
-        if(user.liked) {
-            if(this.count<1){
-                this.count=this.count+1
-            }
-        }
+    // onLike(user,like) {
+    //     console.log("hello")
+    //     console.log(like.liked)
+    //     like.liked=!like.liked;
+    //     console.log(like.liked)
+    //     this.http.post(`http://localhost:3000/like`, { 
+    //         "liked": like.liked,
+    //         "postId": user._id,
+    //         "likerId": this.myDetails._id,
+    //         "likerUsername": this.myDetails.username,
+    //      }).subscribe(data => {
+    //         this.ngOnInit()
+    //         //console.log(JSON.stringify(data))
+            
+    //     })
         
+    // }
+    // displayLike() {
+    //     this.http.get(`http://localhost:3000/like`).subscribe(data => {
+    //         //console.log(JSON.stringify(data))
+    //         this.likes=data
+    //         // this.post.map((post)=>{
+    //         //     post.showCommentBox = false
+    //         // })
+    //       })
+
+    // }
+
+    onShare(user) {
+        this.http.post(`http://localhost:3000/share`, { 
+            "message": user.message,
+            "username": this.myDetails.username,
+            "postOwner": user.username,
+            "postId" : user._id
+         }).subscribe(data => {
+            //console.log(JSON.stringify(data))
+
+            this.ngOnInit()
+          })
+
     }
 
+    // displayShare() {
+    //     //console.log("JSON.stringify(data)")
+    //     this.http.get(`http://localhost:3000/share`).subscribe(data => {
+    //         //console.log(JSON.stringify(data))
+    //         this.share=data
+    //       })
+    // }
     // private loadAllUsers() {
     //     this.userService.getAll()
     //         .pipe(first())
