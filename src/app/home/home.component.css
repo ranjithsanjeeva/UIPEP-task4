@@ -8,6 +8,8 @@
     
 }
 .main {
+    margin-top: 70px;
+    margin-bottom: 20px;
     color: rgb(184, 181, 181);
 }
 
@@ -16,7 +18,7 @@ h2 {
 }
 
 h4 {
-    color: rgb(71, 68, 68);
+    color: rgb(236, 231, 231);
     
     
 }
@@ -50,14 +52,18 @@ p {
     /* visibility: hidden; */
     margin-top: 2px;
     margin-left: 30px;
-    margin-right: 30px;
+    margin-right: 20px;
     /* margin-bottom: 20px; */
-    color: rgb(109, 105, 105);
+    color: rgb(255, 255, 255);
 }
 
 
 .commentContent {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    padding: 3px;
+    background-color: rgb(100, 99, 99);
+    border: 2px solid rgb(44, 44, 44);
+    border-radius: 5px;
 }
 
 .postbtn {
@@ -68,10 +74,12 @@ p {
 .post {
     padding: 10px;
     margin-left: 20px;
+    margin-right: 20px;
+    color: #353434;
 }
 
 .btn-outline-primary{
-
+    
     padding: 2px;
     margin-bottom: 4px;
 }
@@ -84,10 +92,6 @@ p {
     margin-bottom: 10px;
 }
 
-.comment-input {
-    border: none;
-    border-bottom: 1px solid rgb(44, 40, 40);
-}
 ul {
     padding: 0;
     list-style-type: none;
@@ -113,12 +117,47 @@ li {
 
 .shared {
     padding: 1px;
-    margin-right: 620px;
+    width: 58px;
     border: .5px dotted rgb(104, 103, 103);
-    background-color: rgb(194, 185, 185);
+    background-color: rgb(107, 107, 107);
+    color: rgb(36, 36, 36);
 }
 
 .text-danger {
     padding: 3px;
-    border: 1px solid rgb(146, 9, 9);
+    border: 1px solid rgb(184, 4, 4);
+}
+
+.card {
+    background-color: #494949;
+    border-radius: 10px;
+}
+
+.comment-btn {
+    margin-left: -30px;
+}
+
+#message {
+    background-color: #c5caca;
+    border: none;
+    color: rgb(105, 104, 104);
+}
+
+.comment-in {
+    border: none;
+    background-color: #343535;
+    border-bottom: 1px solid white;
+    margin-bottom: 20px;
+}
+
+.commentOwner {
+    font-size: small;
+}
+
+.userpost {
+    background-color: rgb(158, 158, 158);
+}
+
+li.post.card-body {
+    margin-right: 20px;
 }

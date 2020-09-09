@@ -1,6 +1,5 @@
 <div class="heading">
     <h1 class="main">Hi {{myDetails.firstName}} {{myDetails.lastName}}!</h1>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <form [formGroup]="registerForm1" (ngSubmit)="onPost()">
         <div class="form-group">
         <!-- <input id="message" type="text" formControlName="message" class="form-control" /> -->
@@ -21,9 +20,9 @@
     <ul>
         <div class="mainpost" *ngFor="let user of post">
 
-            <div class="card" *ngIf="user.username == myDetails.username">
+            <div class="card userpost" *ngIf="user.username == myDetails.username">
                 
-                <p><li class="text-muted post card-body"> <div *ngIf="user.postOwner"><h6 class="shared">Shared</h6>  post owner : <b>{{user.postOwner}}</b>  <br></div> {{user.message}} </li></p>
+                <li class="post card-body"> <div *ngIf="user.postOwner"><h6 class="shared">Shared</h6>  post owner : <b>{{user.postOwner}}</b>  <br></div> {{user.message}} </li>
                 <!-- <button class="btn btn-outline-primary like" (click)="onLike(user,like)" >
                 <div *ngFor="let like of likes">
                     <div *ngIf="user._id == like.postId">
@@ -43,15 +42,16 @@
                     count: {{count}}
                 </span> -->
                 <button class="btn btn-outline-primary " (click)="onCommentClick(user)" >Comment</button> 
-                <button class="btn btn-outline-primary" (click)="onShare(user)">Share</button> <br>
+                <button class="btn btn-outline-primary" (click)="onShare(user)">Share</button>
+                <button class="btn btn-outline-primary " (click)="onFbClick(user)" >Facebook Share</button> <br>
                 <form [formGroup]="registerForm2" (ngSubmit)="onComment(user._id,myDetails.username)">
                     <div class="comments padd" [ngStyle]="{'display':user.showCommentBox?'block':'none'}">
-                        <input class="comment-input w3-input" type="text" formControlName="comment" placeholder="Write your comment here"/> <button class="btn btn-link">Post</button> <br>
+                        <input class="comment-input comment-in" type="text" formControlName="comment" placeholder="Write your comment here"/> <button class="comment-btn btn-link">Post</button><br>
                         All Comments:
                         <ul>
                             <div *ngFor="let value of comment">
                                 <div class = "commentContent" *ngIf="value.postId == user._id">
-                                    <li> <h5>{{value.commentowner}}: </h5>{{value.comment}}</li>
+                                    <li> <b>{{value.commentowner}} : </b>{{value.comment}}</li>
                                 </div>
                             </div>
                         </ul>
@@ -86,8 +86,8 @@
             
             <ul>
                 <div class="mainpost" *ngFor="let j of post">
-                    <div class="card" *ngIf="i.username == j.username">
-                        <p><li class="text-muted post"> <div *ngIf="j.postOwner"> <h6 class="shared">Shared</h6> post owner : <b>{{j.postOwner}}</b>  <br></div>  {{j.message}} </li></p>
+                    <div class="card userpost" *ngIf="i.username == j.username">
+                        <li class="post" > <div *ngIf="j.postOwner"> <h6 class="shared">Shared</h6> post owner : <b>{{j.postOwner}}</b>  <br></div>  {{j.message}} </li>
                         <!-- <div *ngFor="let like of likes">
                             <div *ngIf="j._id == like.postId">
                                 <button class="btn btn-outline-primary like" (click)="onLike(j,like)" >
@@ -101,15 +101,16 @@
                             </div>
                         </div> -->
                         <button class="btn btn-outline-primary hello" (click)="onCommentClick(j)" >Comment</button> 
-                        <button class="btn btn-outline-primary" (click)="onShare(j)" >Share</button> <br>
+                        <button class="btn btn-outline-primary" (click)="onShare(j)" >Share</button>
+                        <button class="btn btn-outline-primary hello" (click)="onFbClick(j)" >Facebook Share</button> <br>
                         <form [formGroup]="registerForm2" (ngSubmit)="onComment(j._id,myDetails.username)">
                             <div class="comments" [ngStyle]="{'display':j.showCommentBox?'block':'none'}">
-                                <input class="comment-input w3-input" type="text" formControlName="comment" placeholder="Write your comment here"/> <button class="btn btn-link">Post</button> <br>
+                                <input class="comment-input comment-in" type="text" formControlName="comment" placeholder="Write your comment here"/> <button class="comment-btn btn-link">Post</button> <br>
                                 All Comments:
                                 <ul> 
                                     <div *ngFor="let value of comment">
                                         <div class = "commentContent" *ngIf="value.postId == j._id">
-                                            <li> <b>{{value.commentowner}}</b>: {{value.comment}}</li>
+                                            <li> <b>{{value.commentowner}}</b> : {{value.comment}}</li>
                                         </div>
                                     </div>
                                 </ul>
@@ -131,3 +132,22 @@
         
     </div>
 </ul>
+
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId            : '342360540147215',
+        autoLogAppEvents : true,
+        xfbml            : true,
+        version          : 'v8.0'
+      });
+    };
+  </script>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+      
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=URLENCODED_URL&t=TITLE"
+   onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
+   target="_blank" title="Share on Facebook">
+</a>

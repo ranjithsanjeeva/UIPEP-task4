@@ -6,7 +6,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { identifierModuleUrl } from '@angular/compiler';
+import { get } from 'scriptjs';
 
+declare var FB;
 @Component({ 
     templateUrl: 'home.component.html',
     styleUrls: ['home.component.css']
@@ -41,6 +43,15 @@ export class HomeComponent implements OnInit {
     }
     
     ngOnInit() {
+        get("https://connect.facebook.net/en_US/sdk.js", () => {
+            FB.init({
+                appId            : '342360540147215',
+                autoLogAppEvents : true,
+                xfbml            : true,
+                version          : 'v8.0'
+            });
+            console.log("Facebook library loaded")
+        });
         this.registerForm1 = this.formBuilder.group({
         message: ['', Validators.required] 
         });
@@ -138,10 +149,26 @@ export class HomeComponent implements OnInit {
 
 
     onCommentClick(user) {
+//         let url = 'http://www.facebook.com/sharer.php?u='+ "www.jsjjsjsjsjjsjsjjsjsjs.com";
+//         let newwindow=window.open(url,'name','height=500,width=520,top=200,left=300,resizable');
+//    if (window.focus) {
+//        newwindow.focus()
+//    } 
+
+
+
+// {
+//     method: 'share',
+//     media:['https://picsum.photos/200/300'],
+//     quote:'Hey'
+//   }
+
+      
+
         // this.user3.map((post)=> {
 
         // })
-        user.showCommentBox = ! user.showCommentBox ;
+       user.showCommentBox = ! user.showCommentBox ;
         // this.showCommentVisibity = !this.showCommentVisibity;
         // this.output.style.visibility = "visible";
     }
@@ -151,6 +178,7 @@ export class HomeComponent implements OnInit {
         if (this.registerForm2.invalid) {
             return;
         }
+
         // console.log(this.registerForm2.value.comment)
         // console.log(postId)
         // console.log(commentowner)
@@ -177,6 +205,20 @@ export class HomeComponent implements OnInit {
             // })
 
           })
+    }
+
+    onFbClick(user) {
+        FB.ui({
+            quote:user.message,
+            method: 'feed',
+            name: 'Facebook Dialogs',
+            link: 'www.angularproject.com',
+            href: 'www.angularproject.com',
+            caption: 'Reference Documentation',
+            description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
+         
+        }, function(response){});
+
     }
 
     // onLike(user,like) {

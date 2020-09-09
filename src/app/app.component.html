@@ -1,13 +1,13 @@
 <!-- nav -->
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
-    <div class="navbar-nav">
+<nav class="navbar navbar-expand navbar-dark bg-dark fixed-top" *ngIf="currentUser">
+    <div class="navbar-nav" >
         <a class="nav-item nav-link" routerLink="/">Home</a>
         <a class="nav-item nav-link" style="cursor: pointer;" (click)="logout()">Logout</a>
     </div>
 </nav>
 
 <!-- main content container -->
-<div class="bg-dark">
+<div  style="background-color: #303030;">
     <div class="container">
         <div class="row">
             <div class="col-sm-8 offset-sm-2">
